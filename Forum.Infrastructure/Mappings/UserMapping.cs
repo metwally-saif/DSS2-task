@@ -1,6 +1,7 @@
 ﻿using Forum.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Forum.Infrastructure.Mappings
 {
@@ -48,6 +49,23 @@ namespace Forum.Infrastructure.Mappings
                 .HasColumnName("role")
                 .HasConversion<string>()
                 .HasDefaultValue(Role.User);
+
+            builder.Property(e => e.UpdateDate)
+                .HasColumnName("update_date")
+                .HasColumnType("timestamp")
+                .HasConversion(
+                    v => v, // Use default value
+                    v => v == default ? default : DateTime.SpecifyKind((DateTime)v, DateTimeKind.Utc) // Convert to UTC DateTime
+                );
+
+            builder.Property(e => e.CreateDate)
+                .HasColumnName("create_date")
+                .HasColumnType("timestamp")
+                .HasConversion(
+                    v => v, // Use default value
+                    v => v == default ? default : DateTime.SpecifyKind((DateTime)v, DateTimeKind.Utc) // Convert to UTC DateTime
+                );
+
 
             builder.HasMany(e => e.Topics)
                 .WithOne(e => e.Creator)

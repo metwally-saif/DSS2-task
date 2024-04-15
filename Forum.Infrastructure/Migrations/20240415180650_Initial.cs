@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Forum.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,8 +28,8 @@ namespace Forum.Infrastructure.Migrations
                     last_name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     role = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "User"),
                     is_deleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    create_date = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    update_date = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
