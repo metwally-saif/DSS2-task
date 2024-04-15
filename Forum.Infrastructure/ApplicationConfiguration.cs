@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Forum.Infrastructure
@@ -11,7 +12,7 @@ namespace Forum.Infrastructure
     public static class ApplicationConfiguration
     {
         public static IServiceCollection AddDatabase(
-            this IServiceCollection services, 
+            this IServiceCollection services,
             IConfiguration configuration)
         {
             var section = configuration.GetSection(nameof(DatabaseSettings));
@@ -43,7 +44,9 @@ namespace Forum.Infrastructure
             {
                 using (var scope = app.Services.CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                    var context = scope.ServiceProvider
+                        .GetRequiredService<DatabaseContext>();
+
                     context.Database.Migrate();
                 }
             }

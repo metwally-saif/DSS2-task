@@ -1,14 +1,16 @@
-﻿using Forum.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Forum.Application.Dto
 {
-    public class UserDetailsDto
+    public class UpdateUserDto
     {
-        public long? Id { get; set; }
+
+        [Required]
         public string? Username { get; set; }
+        [Required]
         public string? Email { get; set; }
+
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public Role? Role { get; set; }
     }
 }

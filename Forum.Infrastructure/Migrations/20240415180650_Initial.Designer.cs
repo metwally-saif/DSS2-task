@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Forum.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240311175641_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240415180650_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.16");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
             modelBuilder.Entity("Forum.Domain.Models.Comment", b =>
                 {
@@ -95,7 +95,8 @@ namespace Forum.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp")
+                        .HasColumnName("create_date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -133,7 +134,8 @@ namespace Forum.Infrastructure.Migrations
                         .HasColumnName("role");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp")
+                        .HasColumnName("update_date");
 
                     b.Property<string>("Username")
                         .IsRequired()

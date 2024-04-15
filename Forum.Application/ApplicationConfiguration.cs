@@ -9,6 +9,8 @@ namespace Forum.Application
             this IServiceCollection services)
         {
             services.AddScoped<UserService>();
+            services.AddScoped<AuthenticationService>();
+            _ = services.AddSingleton<PasswordService>();
 
             return services;
         }
