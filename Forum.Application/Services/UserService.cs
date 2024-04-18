@@ -131,6 +131,7 @@ namespace Forum.Application.Services
 
             exist = await _userRepository
                .IsExistingEmailAsync(id!.Value, user.Username!);
+            
 
             if (exist)
             {

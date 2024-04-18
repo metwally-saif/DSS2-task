@@ -1,4 +1,5 @@
-﻿using Forum.Application.Services;
+﻿using Forum.Application.Repositories;
+using Forum.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Forum.Application
@@ -10,6 +11,8 @@ namespace Forum.Application
         {
             services.AddScoped<UserService>();
             services.AddScoped<AuthenticationService>();
+            services.AddScoped<TopicService>();
+            services.AddScoped<CommentService>();
             _ = services.AddSingleton<PasswordService>();
 
             return services;

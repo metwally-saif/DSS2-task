@@ -126,12 +126,12 @@ namespace Forum.Web.UI.Controllers
                 // Return a view with error message
                 return View("Error");
             }
-            }
+        }
 
-            // GET: UsersContrller/Edit/{id}
-            public async Task<ActionResult> EditAsync(int id, UpdateUserViewModel mode)
+        // GET: UsersContrller/Edit/{id}
+        public async Task<ActionResult> EditAsync(int id, UpdateUserViewModel mode)
         {
-           try
+            try
             {
                 if (mode.Email == null)
                 {
@@ -148,7 +148,7 @@ namespace Forum.Web.UI.Controllers
                         return View();
                     }
                 }
-                       else
+                else
                 {
                     var response = await _httpClient.PutAsync($"api/Users/{id}", new StringContent(JsonConvert.SerializeObject(mode), Encoding.UTF8, "application/json"));
                     if (response.IsSuccessStatusCode)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Forum.Infrastructure.Repositories
 {
-    internal abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
         where TEntity : class, IDomainEntity
 
     {
