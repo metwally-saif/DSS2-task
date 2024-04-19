@@ -10,7 +10,7 @@ namespace Forum.Infrastructure.Mappings
         public void Configure(
             EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("users", "public");
+            builder.ToTable("users");
 
             builder.HasKey(x => x.Id);
             builder.Property(e => e.Id)
@@ -65,16 +65,8 @@ namespace Forum.Infrastructure.Mappings
                     v => v, // Use default value
                     v => v == default ? default : DateTime.SpecifyKind((DateTime)v, DateTimeKind.Utc) // Convert to UTC DateTime
                 );
-
-
-            builder.HasMany(e => e.Topics)
-                .WithOne(e => e.Creator)
-                .HasForeignKey(e => e.CreatorId);
-
-            builder.HasMany(e => e.Comments)
-                .WithOne(e => e.Creator)
-                .HasForeignKey(e => e.CreatorId);
-
+            
+            
             builder.HasIndex(e => e.Username)
                 .HasDatabaseName("UX_public_users_username")
                 .IsUnique();

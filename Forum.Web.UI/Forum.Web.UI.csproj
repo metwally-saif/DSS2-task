@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Registration\" />
-  </ItemGroup>
-
 </Project>

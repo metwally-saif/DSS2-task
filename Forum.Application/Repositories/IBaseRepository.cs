@@ -1,6 +1,7 @@
 ﻿using Forum.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Forum.Application.Dto;
 
 namespace Forum.Application.Repositories
 {

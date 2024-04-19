@@ -106,7 +106,7 @@ namespace Forum.Web.UI.Controllers
 
 
                 // Send POST request to API endpoint
-                var response = await _httpClient.PostAsync("api/Users", new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json"));
+                var response = await _httpClient.PostAsync("api/Users/0", new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json"));
 
                 // Check if the request was successful
                 if (!response.IsSuccessStatusCode)
@@ -126,12 +126,12 @@ namespace Forum.Web.UI.Controllers
                 // Return a view with error message
                 return View("Error");
             }
-            }
+        }
 
-            // GET: UsersContrller/Edit/{id}
-            public async Task<ActionResult> EditAsync(int id, UpdateUserViewModel mode)
+        // GET: UsersContrller/Edit/{id}
+        public async Task<ActionResult> EditAsync(int id, UpdateUserViewModel mode)
         {
-           try
+            try
             {
                 if (mode.Email == null)
                 {
@@ -148,7 +148,7 @@ namespace Forum.Web.UI.Controllers
                         return View();
                     }
                 }
-                       else
+                else
                 {
                     var response = await _httpClient.PutAsync($"api/Users/{id}", new StringContent(JsonConvert.SerializeObject(mode), Encoding.UTF8, "application/json"));
                     if (response.IsSuccessStatusCode)

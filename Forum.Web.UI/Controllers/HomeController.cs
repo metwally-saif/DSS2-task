@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Security.Claims;
+using Forum.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Forum.Web.UI.Controllers
 {
@@ -38,7 +41,10 @@ namespace Forum.Web.UI.Controllers
             {
                 return View(nameof(Index), model);
             }
-
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeAuthenticated));
+            }
             try
             {
                 var user = await _authenticationClient
@@ -66,20 +72,34 @@ namespace Forum.Web.UI.Controllers
 
                 return View(nameof(Index), model);
             }
-
-            return RedirectToAction(
-                nameof(UsersController.IndexAsync),
-                "Users");
+            
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
         {
             return View();
         }
+        
+        [Authorize (Roles = "User, Admin")]
+        public IActionResult HomeAuthenticated()
+        {
+            var model = new TopicsView
+            {
+                Topics = new List<Topic>()
+            };
+            return View(model);
+            
+        }
 
         public IActionResult Register()
         {
             return View();
+        }
+        
+        public IActionResult Logout()
+        {
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

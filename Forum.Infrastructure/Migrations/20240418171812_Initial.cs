@@ -11,12 +11,8 @@ namespace Forum.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "public");
-
             migrationBuilder.CreateTable(
                 name: "users",
-                schema: "public",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -28,8 +24,8 @@ namespace Forum.Infrastructure.Migrations
                     last_name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     role = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "User"),
                     is_deleted = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: false),
-                    create_date = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    update_date = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    create_date = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    update_date = table.Column<DateTime>(type: "timestamp", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,90 +33,89 @@ namespace Forum.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topic",
+                name: "topic",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                    id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CreatorId = table.Column<long>(type: "INTEGER", nullable: true),
-                    Subject = table.Column<string>(type: "TEXT", nullable: true),
+                    Creator = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
+                    CreatorId = table.Column<long>(type: "INTEGER", nullable: false),
+                    subject = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    Likes = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Likes = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<long>(type: "INTEGER", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "timestamp", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topic", x => x.Id);
+                    table.PrimaryKey("PK_topic", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Topic_users_CreatorId",
-                        column: x => x.CreatorId,
-                        principalSchema: "public",
+                        name: "FK_topic_users_UserId",
+                        column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "comment",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                    id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Likes = table.Column<int>(type: "INTEGER", nullable: false),
-                    Text = table.Column<string>(type: "TEXT", nullable: true),
+                    Text = table.Column<string>(type: "TEXT", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    Creator = table.Column<string>(type: "TEXT", nullable: false),
                     CreatorId = table.Column<long>(type: "INTEGER", nullable: true),
                     TopicId = table.Column<long>(type: "INTEGER", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    UserId = table.Column<long>(type: "INTEGER", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_comment", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Comment_Topic_TopicId",
+                        name: "FK_comment_topic_TopicId",
                         column: x => x.TopicId,
-                        principalTable: "Topic",
-                        principalColumn: "Id");
+                        principalTable: "topic",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Comment_users_CreatorId",
-                        column: x => x.CreatorId,
-                        principalSchema: "public",
+                        name: "FK_comment_users_UserId",
+                        column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_CreatorId",
-                table: "Comment",
-                column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comment_TopicId",
-                table: "Comment",
+                name: "IX_comment_TopicId",
+                table: "comment",
                 column: "TopicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topic_CreatorId",
-                table: "Topic",
-                column: "CreatorId");
+                name: "IX_comment_UserId",
+                table: "comment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_topic_UserId",
+                table: "topic",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_public_users_usename_role",
-                schema: "public",
                 table: "users",
                 columns: new[] { "username", "role" });
 
             migrationBuilder.CreateIndex(
                 name: "UX_public_users_email",
-                schema: "public",
                 table: "users",
                 column: "email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UX_public_users_username",
-                schema: "public",
                 table: "users",
                 column: "username",
                 unique: true);
@@ -130,14 +125,13 @@ namespace Forum.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "comment");
 
             migrationBuilder.DropTable(
-                name: "Topic");
+                name: "topic");
 
             migrationBuilder.DropTable(
-                name: "users",
-                schema: "public");
+                name: "users");
         }
     }
 }
