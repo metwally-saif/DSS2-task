@@ -50,11 +50,9 @@ public class CommentService
         return await _commentRepository.SaveAsync(commentDto);
     }
     
-    public async Task<Comment?> UpdateCommentAsync(UpdateCommentDto comment)
+    public async Task<Comment?> UpdateCommentAsync(Comment comment)
     {
-        var commentDto = await _commentRepository.GetCommentAsync(comment.Id);
-        
-        return await _commentRepository.UpdateAsync(commentDto);
+        return await _commentRepository.UpdateAsync(comment);
     }
     
     public async Task<Comment?> DeleteCommentAsync(Comment comment)

@@ -49,19 +49,17 @@ public class TopicsController : Controller
         return View();
     }
     
-    public async Task<IActionResult> Create(Topic topic)
+    public async Task<IActionResult> Create(CreateTopicDto topic)
     {
         if (!ModelState.IsValid || topic.Subject == null)
         {
             return View();
         }
         var userId = User.FindFirstValue(ClaimTypes.Sid);
-        var TopicDto = new CreateTopicDto()
-        {
-            CreatorId = long.Parse(userId),
-            Subject = topic.Subject,
-        };   
-        var response = await _httpClient.PostAsync("api/Topics",  new StringContent(JsonConvert.SerializeObject(TopicDto), Encoding.UTF8, "application/json"));
+
+        topic.CreatorId = long.Parse(userId);
+ 
+        var response = await _httpClient.PostAsync("api/Topics",  new StringContent(JsonConvert.SerializeObject(topic), Encoding.UTF8, "application/json"));
         if (response.IsSuccessStatusCode)
         {
             return RedirectToAction("Index");
@@ -76,14 +74,21 @@ public class TopicsController : Controller
         if (response.IsSuccessStatusCode)
         {
             var topic = await response.Content.ReadFromJsonAsync<Topic>();
+            var topicWithComments = new TopicWithComments() 
+            { Id = topic.Id, 
+                CreatorId = topic.CreatorId, 
+                Subject = topic.Subject, 
+                Likes = topic.Likes, 
+                Creator = topic.Creator, 
+                Comments = new List<Comment>()
+            };
             if (commentsResponse.IsSuccessStatusCode)
             {
                 var comments = await commentsResponse.Content.ReadFromJsonAsync<List<Comment>>();
-                var topicWithComments = new TopicWithComments();
-                topicWithComments.Comments = comments;
+                topicWithComments.Comments.AddRange(comments);
                 return View(topicWithComments);
             }
-            return View(topic);
+            return View(topicWithComments);
         }
         return View();
     }
@@ -121,11 +126,23 @@ public class TopicsController : Controller
     
     public async Task<IActionResult> UpdateLike(long id)
     {
-        var response = await _httpClient.PutAsync($"api/Topics/{id}", new StringContent("", Encoding.UTF8, "application/json"));
+        long topicId = id;
+        var response = await _httpClient.PutAsync($"api/Topics/{topicId}", new StringContent("", Encoding.UTF8, "application/json"));
         if (response.IsSuccessStatusCode)
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new {id = id});
         }
-        return RedirectToAction("Index");
+        return RedirectToAction("Details", new {id = id});
     }
+    
+    public async Task<IActionResult> likeComment(long id, long topicId)
+    {
+        long commentId = id;
+        var response = await _httpClient.PutAsync($"api/Comments/{commentId}", new StringContent("", Encoding.UTF8, "application/json"));
+        if (response.IsSuccessStatusCode)
+        {
+            return RedirectToAction("Details", new {id = topicId});
+        }
+        return RedirectToAction("Details", new {id = topicId});
+    }  
 }

@@ -84,5 +84,27 @@ namespace Forum.Web.Api.Controllers
 
             return Ok(deletedComment);
         }
+        
+        [HttpPut("{commentId}")]
+        public async Task<IActionResult> UpdateAsync(
+            [FromRoute] long? commentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Values);
+            }
+            
+            var comment = await _commentService.GetCommentAsync(commentId);
+            
+            comment.Likes += 1;
+            var updatedComment = await _commentService.UpdateCommentAsync(comment);
+
+            if (updatedComment is null)
+            {
+                return BadRequest("Failed to update comment");
+            }
+
+            return Ok(updatedComment);
+        }
     }
 }

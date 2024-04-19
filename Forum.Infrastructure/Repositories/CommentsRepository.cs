@@ -16,7 +16,20 @@ namespace Forum.Infrastructure.Repositories
 
         public Task<Comment?> GetCommentAsync(long? commentId)
         {
-            throw new System.NotImplementedException();
+            var comment =  Query
+                .Where(e => e.Id == commentId)
+                .Select(e => new Comment()
+                {
+                    Id = e.Id,
+                    Likes = e.Likes,
+                    Text = e.Text,
+                    Status = e.Status,
+                    Creator = e.Creator,
+                    CreatorId = e.CreatorId,
+                    TopicId = e.TopicId
+                });
+            return Task.FromResult(comment.FirstOrDefault());
+            
         }
 
         public async Task<List<CommentsDto>> GetCommentsByTopicIdAsync(long? topicId)
@@ -25,6 +38,7 @@ namespace Forum.Infrastructure.Repositories
                 .Where(e => e.TopicId == topicId)
                 .Select(e => new CommentsDto
                 {
+                    Id = e.Id,
                     Likes = e.Likes,
                     Text = e.Text,
                     Status = e.Status,

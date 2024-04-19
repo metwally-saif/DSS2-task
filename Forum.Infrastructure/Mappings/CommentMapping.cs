@@ -19,14 +19,15 @@ internal class CommentMapping : IEntityTypeConfiguration<Comment>
         builder.Property(e => e.Creator)
             .HasColumnName("Creator")
             .IsRequired();
-        
+
         builder.Property(e => e.CreatorId)
-            .HasColumnName("CreatorId")
-            .IsRequired();
+            .HasColumnName("CreatorId");
 
         builder.Property(e => e.TopicId)
-            .HasColumnName("TopicId")
-            .IsRequired();
+            .HasColumnName("TopicId");
+
+        builder.HasIndex(e => e.TopicId)
+            .IsUnique(false);
         
         builder.Property(e => e.Text)
             .HasColumnName("Text")
