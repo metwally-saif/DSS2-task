@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - dss-a
+name: Build and deploy ASP.Net Core app to Azure Web App
 
 on:
   push:
@@ -10,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_deploy_api:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,45 +19,73 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Build API with dotnet
+        run: dotnet build --configuration Release --project Forum.Web.Api/Forum.Web.Api.csproj
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: dotnet publish API
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp Forum.Web.Api/Forum.Web.Api.csproj
 
-      - name: Upload artifact for deployment job
+      - name: Upload API artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: .net-app
+          name: api-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: .net-app
-      
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D0317F23C6444240A8A368030F75276A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1868C279811341E29CAA45DE2D1FE22F }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_77D39C7C99574222A47E3A5A6FFC08CB }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: Deploy API to Azure Web App
+        id: deploy-api-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'dss-a'
+          app-name: 'your-api-app-name'
           slot-name: 'Production'
           package: .
+
+  build_and_deploy_ui:
+    needs: build_and_deploy_api
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - name: Build UI with dotnet
+        run: dotnet build --configuration Release --project Forum.Web.UI/Forum.Web.UI.csproj
+
+      - name: dotnet publish UI
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp Forum.Web.UI/Forum.Web.UI.csproj
+
+      - name: Upload UI artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy UI to Azure Web App
+        id: deploy-ui-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'your-ui-app-name'
+          slot-name: 'Production'
+          package: .
+          app-settings-json: >
+            [
+              {
+                "name": "BACKEND_API_ADDRESS",
+                "value": "${{ needs.build_and_deploy_api.outputs.webapp-url }}/api"
+              }
+            ]
           
