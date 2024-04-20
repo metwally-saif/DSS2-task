@@ -20,8 +20,8 @@ jobs:
           include-prerelease: true
 
       - name: Build API with dotnet
-        run: dotnet build --configuration Release --project Forum.Web.Api/Forum.Web.Api.csproj
-
+        run: dotnet build --configuration Release Forum.Web.Api/Forum.Web.Api.csproj
+      
       - name: dotnet publish API
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp Forum.Web.Api/Forum.Web.Api.csproj
 
@@ -40,7 +40,7 @@ jobs:
         id: deploy-api-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'your-api-app-name'
+          app-name: 'api'
           slot-name: 'Production'
           package: .
 
@@ -78,7 +78,7 @@ jobs:
         id: deploy-ui-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'your-ui-app-name'
+          app-name: 'ui'
           slot-name: 'Production'
           package: .
           app-settings-json: >
