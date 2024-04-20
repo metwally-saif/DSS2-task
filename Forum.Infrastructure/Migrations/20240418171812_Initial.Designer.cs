@@ -11,80 +11,114 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Forum.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240311175641_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240418171812_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.16");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
             modelBuilder.Entity("Forum.Domain.Models.Comment", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime?>("CreateDate")
+                    b.Property<DateTime>("CreateDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Creator")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Creator");
 
                     b.Property<long?>("CreatorId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CreatorId");
 
                     b.Property<int>("Likes")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Likes");
 
                     b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Status");
 
                     b.Property<string>("Text")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Text");
 
                     b.Property<long?>("TopicId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("TopicId");
 
-                    b.Property<DateTime?>("UpdateDate")
+                    b.Property<DateTime>("UpdateDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
-
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Comment");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("comment", (string)null);
                 });
 
             modelBuilder.Entity("Forum.Domain.Models.Topic", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("CreateDate");
+
+                    b.Property<string>("Creator")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Creator");
 
                     b.Property<long?>("CreatorId")
-                        .HasColumnType("INTEGER");
+                        .IsRequired()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CreatorId");
 
                     b.Property<int>("Likes")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .HasColumnName("Likes");
 
                     b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Status");
 
                     b.Property<string>("Subject")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("subject");
 
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("UpdateDate");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Topic");
+                    b.ToTable("topic", (string)null);
                 });
 
             modelBuilder.Entity("Forum.Domain.Models.User", b =>
@@ -94,8 +128,9 @@ namespace Forum.Infrastructure.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("create_date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -132,8 +167,9 @@ namespace Forum.Infrastructure.Migrations
                         .HasDefaultValue("User")
                         .HasColumnName("role");
 
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("update_date");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -154,36 +190,31 @@ namespace Forum.Infrastructure.Migrations
                     b.HasIndex("Username", "Role")
                         .HasDatabaseName("IX_public_users_usename_role");
 
-                    b.ToTable("users", "public");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("Forum.Domain.Models.Comment", b =>
                 {
-                    b.HasOne("Forum.Domain.Models.User", "Creator")
+                    b.HasOne("Forum.Domain.Models.Topic", null)
+                        .WithOne("Comment")
+                        .HasForeignKey("Forum.Domain.Models.Comment", "TopicId");
+
+                    b.HasOne("Forum.Domain.Models.User", null)
                         .WithMany("Comments")
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("Forum.Domain.Models.Topic", "Topic")
-                        .WithMany("Comments")
-                        .HasForeignKey("TopicId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Topic");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Forum.Domain.Models.Topic", b =>
                 {
-                    b.HasOne("Forum.Domain.Models.User", "Creator")
+                    b.HasOne("Forum.Domain.Models.User", null)
                         .WithMany("Topics")
-                        .HasForeignKey("CreatorId");
-
-                    b.Navigation("Creator");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Forum.Domain.Models.Topic", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Comment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Forum.Domain.Models.User", b =>

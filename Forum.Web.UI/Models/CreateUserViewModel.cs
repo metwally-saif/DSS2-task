@@ -1,4 +1,6 @@
-﻿namespace Forum.Web.UI.Models
+﻿using Forum.Web.UI.Clients.Users;
+
+namespace Forum.Web.UI.Models
 {
     public class CreateUserViewModel
     {
@@ -8,5 +10,6 @@
         public string? ConfirmPassword { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public Role? Role { get; set; }
     }
 }

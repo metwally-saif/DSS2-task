@@ -1,0 +1,38 @@
+﻿@using System.Security.Claims
+@using Forum.Web.UI.Clients.Users
+@model List<Forum.Domain.Models.Topic>?
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<h1>Topics</h1>
+<table class="table">
+    <tr>
+        <th>Author</th>
+        <th>Subject</th>
+        <th>Likes</th>
+        <th>Created On</th>
+        <th>Actions</th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var topic in Model)
+        {
+            <tr>
+                <td>@topic.Creator</td>
+                <td>@topic.Subject</td>
+                <td>@topic.Likes</td>
+                <td>@topic.CreateDate.ToString()</td>
+                <td>@Html.ActionLink("Details", "Details", new { id = topic.Id })
+                @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.Name)  == topic.Creator || User.FindFirstValue(ClaimTypes.Role) == "Admin" )
+                { @Html.ActionLink("Delete", "Delete", new {topic.Id})} </td>
+            </tr>
+        }
+    }
+</table>
+<a asp-controller="Topics" asp-action="Create">Create Topic</a>
+<a asp-controller="Home" asp-action="Logout">Logout</a>
+

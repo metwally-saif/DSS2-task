@@ -11,13 +11,13 @@ namespace Forum.Infrastructure
         public DatabaseContext(DbContextOptions options) 
             : base(options)
         {
-        
         }
 
-        protected override void OnModelCreating(
-            ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new TopicMapping());
+            modelBuilder.ApplyConfiguration(new CommentMapping());
 
             base.OnModelCreating(modelBuilder);
         }

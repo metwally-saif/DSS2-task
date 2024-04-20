@@ -1,6 +1,7 @@
 ﻿using Forum.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Forum.Infrastructure.Mappings
 {
@@ -9,7 +10,7 @@ namespace Forum.Infrastructure.Mappings
         public void Configure(
             EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("users", "public");
+            builder.ToTable("users");
 
             builder.HasKey(x => x.Id);
             builder.Property(e => e.Id)
@@ -49,14 +50,23 @@ namespace Forum.Infrastructure.Mappings
                 .HasConversion<string>()
                 .HasDefaultValue(Role.User);
 
-            builder.HasMany(e => e.Topics)
-                .WithOne(e => e.Creator)
-                .HasForeignKey(e => e.CreatorId);
+            builder.Property(e => e.UpdateDate)
+                .HasColumnName("update_date")
+                .HasColumnType("timestamp")
+                .HasConversion(
+                    v => v, // Use default value
+                    v => v == default ? default : DateTime.SpecifyKind((DateTime)v, DateTimeKind.Utc) // Convert to UTC DateTime
+                );
 
-            builder.HasMany(e => e.Comments)
-                .WithOne(e => e.Creator)
-                .HasForeignKey(e => e.CreatorId);
-
+            builder.Property(e => e.CreateDate)
+                .HasColumnName("create_date")
+                .HasColumnType("timestamp")
+                .HasConversion(
+                    v => v, // Use default value
+                    v => v == default ? default : DateTime.SpecifyKind((DateTime)v, DateTimeKind.Utc) // Convert to UTC DateTime
+                );
+            
+            
             builder.HasIndex(e => e.Username)
                 .HasDatabaseName("UX_public_users_username")
                 .IsUnique();
