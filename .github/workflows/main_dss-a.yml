@@ -34,7 +34,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D0317F23C6444240A8A368030F75276A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1868C279811341E29CAA45DE2D1FE22F }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_77D39C7C99574222A47E3A5A6FFC08CB }}
 
       - name: Deploy API to Azure Web App
         id: deploy-api-to-webapp
@@ -72,7 +74,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D0317F23C6444240A8A368030F75276A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1868C279811341E29CAA45DE2D1FE22F }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_77D39C7C99574222A47E3A5A6FFC08CB }}
 
       - name: Deploy UI to Azure Web App
         id: deploy-ui-to-webapp
