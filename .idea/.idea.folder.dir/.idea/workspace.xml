@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f6dde2ea-4c79-46cf-8924-7763deaf6a1d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Forum.Application/ApplicationConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Application/ApplicationConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Application/Dto/UserDetailsDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Application/Dto/UserDetailsDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Application/Dto/UserDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Application/Dto/UserDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Application/Forum.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Application/Forum.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Application/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Application/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/ApplicationConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Infrastructure/ApplicationConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/DatabaseContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Infrastructure/DatabaseContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/Forum.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Infrastructure/Forum.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/Mappings/UserMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Infrastructure/Mappings/UserMapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/Migrations/20240311175641_InitialCreate.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/Migrations/20240311175641_InitialCreate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/Migrations/DatabaseContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Infrastructure/Migrations/DatabaseContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Infrastructure/Repositories/BaseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Infrastructure/Repositories/BaseRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.Api/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.Api/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.Api/Forum.Web.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.Api/Forum.Web.Api.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.Api/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.Api/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.Api/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.Api/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Clients/Users/UserDetailsResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Clients/Users/UserDetailsResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Forum.Web.UI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Forum.Web.UI.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Models/CreateUserViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Models/CreateUserViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Views/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Views/Users/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Views/Users/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/Views/Users/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/Views/Users/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forum.Web.UI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Forum.Web.UI/appsettings.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2f658fFef6K4bmaOvcbxY2WsljP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\saif\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\saif\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\saif\\AppData\\Local\\Symbols\\src"
+    ]
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f6dde2ea-4c79-46cf-8924-7763deaf6a1d" name="Changes" comment="" />
+      <created>1713108529561</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713108529561</updated>
+      <workItem from="1713108532075" duration="18000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
