@@ -1,4 +1,4 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+﻿#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
@@ -15,6 +15,10 @@ COPY ["Forum.Domain/Forum.Domain.csproj", "Forum.Domain/"]
 RUN dotnet restore "./Forum.Web.Api/Forum.Web.Api.csproj"
 COPY . .
 WORKDIR "/src/Forum.Web.Api"
+
+# Run migrations
+RUN dotnet ef database update --project Forum.Infrastructure
+
 RUN dotnet build "./Forum.Web.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
