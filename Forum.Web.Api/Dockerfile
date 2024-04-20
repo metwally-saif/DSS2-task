@@ -17,7 +17,6 @@ COPY . .
 WORKDIR "/src/Forum.Web.Api"
 
 # Run migrations
-RUN dotnet ef database update --project Forum.Infrastructure
 
 RUN dotnet build "./Forum.Web.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
