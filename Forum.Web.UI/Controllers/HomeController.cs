@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text;
+using Forum.Application.Dto;
 using Forum.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using AuthenticateDto = Forum.Web.UI.Clients.Authentication.AuthenticateDto;
 
 
 namespace Forum.Web.UI.Controllers
@@ -18,15 +22,21 @@ namespace Forum.Web.UI.Controllers
         private readonly IUserClient _userClient;
         private readonly IAuthenticationClient _authenticationClient;
         private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient _httpClient;
+
+
 
         public HomeController(
             IUserClient userClient,
             IAuthenticationClient authenticationClient,
-            ILogger<HomeController> logger)
+            ILogger<HomeController> logger,
+            IHttpClientFactory httpClientFactory)
         {
             _userClient = userClient;
             _authenticationClient = authenticationClient;
             _logger = logger;
+            _httpClient = httpClientFactory.CreateClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:5038/"); // Base URL of API
         }
 
         public IActionResult Index()
@@ -106,6 +116,52 @@ namespace Forum.Web.UI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAsync(IFormCollection collection)
+        {
+            try
+            {
+                // Deserialize the form collection into CreateUserDto
+                var userDto = new CreateUserDto
+                {
+                    // Populate properties from form collection
+                    // Example:
+                    FirstName = collection["FirstName"],
+                    LastName = collection["LastName"],
+                    Email = collection["Email"],
+                    Username = collection["Username"],
+                    Password = collection["Password"],
+                    ConfirmPassword = collection["ConfirmPassword"]
+                    // Map other properties accordingly
+                };
+
+                // Serialize CreateUserDto to JSON
+
+
+                // Send POST request to API endpoint
+                var response = await _httpClient.PostAsync($"api/Users/{collection["Role"]}", new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json"));
+
+                // Check if the request was successful
+                if (!response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                // Handle success
+                // Example: redirect to a success page
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (Exception e)
+            {
+                // Handle exception
+                // Example: log the exception
+                Console.WriteLine(e);
+                // Return a view with error message
+                return View("Error");
+            }
         }
     }
 }
